@@ -94,14 +94,15 @@ module Auth0
       # @param email [string] User email
       # @param password [string] User's new password
       # @param connection_name [string] Connection name. Works for database connections.
-      def change_password(email, password, connection_name = UP_AUTH)
+      def change_password(email, password = nil, connection_name = UP_AUTH)
         raise Auth0::InvalidParameter, 'Must supply a valid email' if email.to_s.empty?
         request_params = {
           client_id:  @client_id,
           email:      email,
-          connection: connection_name,
-          password:   password
+          connection: connection_name
         }
+        request_params[:password] = password if password
+
         post('/dbconnections/change_password', request_params)
       end
 

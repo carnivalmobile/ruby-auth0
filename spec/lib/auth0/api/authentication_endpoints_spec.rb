@@ -96,6 +96,14 @@ describe Auth0::Api::AuthenticationEndpoints do
       )
       @instance.change_password('test@test.com', 'password', 'User')
     end
+    it 'is expected to make post without password to /dbconnections/change_password' do
+      expect(@instance).to receive(:post).with(
+        '/dbconnections/change_password',
+        client_id: @instance.client_id, email: 'test@test.com',
+        connection: 'User'
+      )
+      @instance.change_password('test@test.com', nil, 'User')
+    end
     it { expect { @instance.change_password('', '', '') }.to raise_error 'Must supply a valid email' }
   end
 
